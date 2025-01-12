@@ -1,0 +1,27 @@
+class Solution(object):
+    def canBeValid(self, s, locked):
+        string_length = len(s)
+        if string_length % 2 != 0:
+            return False
+        balance = 0
+      
+        for index in range(string_length):
+            if s[index] == '(' or locked[index] == '0':
+                balance += 1
+            elif balance:
+                balance -= 1
+            else:
+                return False
+      
+        balance = 0
+      
+        for index in range(string_length - 1, -1, -1):
+            if s[index] == ')' or locked[index] == '0':
+                balance += 1
+            elif balance:
+                balance -= 1
+           
+            else:
+                return False
+        return True
+        
