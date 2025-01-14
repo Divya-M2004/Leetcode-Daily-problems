@@ -1,0 +1,23 @@
+class Solution(object):
+    def findThePrefixCommonArray(self, A, B):
+        sa, sb = [False] * (len(A)+1), [False] * (len(A)+1)
+        count = 0
+        ans = []
+        for a, b in zip(A, B):
+            sa[a], sb[b] = True, True
+
+            if sb[a]:
+                count+=1
+
+            if a != b and sa[b]:
+                count+=1
+            
+            ans.append(count)
+        
+        return ans
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        
