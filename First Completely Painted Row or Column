@@ -1,0 +1,24 @@
+class Solution:
+    def firstCompleteIndex(self, arr: List[int], mat: List[List[int]]) -> int:
+        R = len(mat)
+        C = len(mat[0])
+
+        painted_in_row = [0] * R
+        painted_in_col = [0] * C
+
+        row_pos = [0] * (R * C + 1)
+        col_pos = [0] * (R * C + 1)
+
+        for i, row in enumerate(mat):
+            for j, num in enumerate(row):
+                row_pos[num] = i
+                col_pos[num] = j
+        
+        for i, a in enumerate(arr):
+            painted_in_row[row_pos[a]]+=1
+            if painted_in_row[row_pos[a]] == C:
+                return i
+            painted_in_col[col_pos[a]]+=1
+            if painted_in_col[col_pos[a]] == R:
+                return i
+        
