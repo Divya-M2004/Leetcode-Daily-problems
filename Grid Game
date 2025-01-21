@@ -1,0 +1,16 @@
+class Solution:
+    def gridGame(self, grid: List[List[int]]) -> int:
+        m = 2
+        n = len(grid[0])
+        
+        lsum = 0
+        rsum = sum(grid[0])  # Calculate the initial right sum
+        
+        ans = float('inf')  # Use Python's equivalent of LLONG_MAX
+        for i in range(n):
+            rsum -= grid[0][i]  # Update right sum by subtracting the current cell
+            ans = min(ans, max(rsum, lsum))  # Choose the minimum of the max values
+            lsum += grid[1][i]  # Update left sum by adding the current cell from the second row
+        
+        return ans
+        
