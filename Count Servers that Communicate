@@ -1,0 +1,42 @@
+class UnionFind():
+    def __init__(self):
+        self.parent = {}
+        self.count = 0
+
+    def find(self, p):
+        while p != self.parent[p]:
+            p = self.parent[p]
+        return p
+
+    def add_island(self, pos):
+        if pos not in self.parent:
+            self.parent[pos] = pos
+            self.count += 1
+
+    def union(self, p, q):
+        rootp = self.find(p)
+        rootq = self.find(q)
+        if rootp != rootq:
+            self.parent[rootp] = self.parent[rootq]
+            self.count -= 1
+            
+class Solution(object):
+    def countServers(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        nRow, nCol = len(grid), len(grid[0])
+        uf = UnionFind()
+        for r in range(nRow):
+            for c in range(nCol):
+                if grid[r][c] == 1:
+                    uf.add_island((r, c))
+                    for nb in [(x, c) for x in range(r)] + [(r, y) for y in range(c)]: # do not need to check all four directions 
+                        if nb in uf.parent:
+                            uf.union((r, c), nb)
+       
+        cnt = defaultdict(int)
+        for x in uf.parent.keys():
+            cnt[uf.find(x)] += 1
+        return sum(v for k, v in cnt.items() if v != 1)
